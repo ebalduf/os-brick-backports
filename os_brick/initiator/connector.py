@@ -888,11 +888,14 @@ class ISCSIConnector(InitiatorConnector):
         device_info['scsi_wwn'] = device_wwn
 
         if self.use_multipath:
-            (host_device, multipath_id) = (super(
-                ISCSIConnector, self)._discover_mpath_device(
-                device_wwn, connection_properties, host_device))
-            if multipath_id:
-                device_info['multipath_id'] = multipath_id
+            try:
+                (host_device, multipath_id) = (super(
+                    ISCSIConnector, self)._discover_mpath_device(
+                    device_wwn, connection_properties, host_device))
+                if multipath_id:
+                    device_info['multipath_id'] = multipath_id
+            except:
+                pass
 
         device_info['path'] = host_device
 
